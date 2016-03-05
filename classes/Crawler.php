@@ -40,6 +40,12 @@ class Crawler
             $result += $item->find($term);
         }
 
+        //save to log
+        $this->log(json_encode($result));
+
+
+
+        //return sorted result
         return $result = $this->sortByPrice($result);
     }
 
@@ -84,6 +90,17 @@ class Crawler
             return ($a->price > $b->price) ? +1 : -1;
         });
         return $result;
+    }
+
+    /**
+     * Log result in file
+     * Line by line
+     * @param $str
+     */
+    public function log($str){
+        $path = __DIR__.'/../log.txt';
+        $fp = fopen($path,'a');
+        fwrite($fp,$str.PHP_EOL);
     }
 
 
